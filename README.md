@@ -1,5 +1,5 @@
-2048bot
-=======
+2048 Bot
+========
 
 An example Chrome extension that plays 2048 by continuously pressing left and down.  Its purpose is not to be a good AI for 2048 - that would require minimax or some similar algorithm - it is meant to demonstrate a non-trivial example of a Chrome extension, as well as how one would go about building it.
 
@@ -32,4 +32,8 @@ The next step is to get the extension to actually do something when we click on 
     Unchecked runtime.lastError while running tabs.executeScript: Cannot access contents of url "http://gabrielecirulli.github.io/2048/". Extension manifest must request permission to access this host.
         at chrome-extension://bcdlmfcoojdclpgglklbcopfiibfpkld/background.js:25:15`
 
-The error message is quite clear - we are missing some sort of permission.  And in fact, if we look at the `manifest.json` for the Page Redder example, we notice that they do request the `activeTab` permission.  Once we add this permission, it works as expected.  Now, the extensionlooks like the one in `2048bot/v3`.  It turns the background of the 2048 game red.
+The error message is quite clear - we are missing some sort of permission.  And in fact, if we look at the `manifest.json` for the Page Redder example, we notice that they do request the `activeTab` permission.  Once we add this permission, it works as expected.  Now, the extension looks like the one in `2048bot/v3`.  It turns the background of the 2048 game red.
+
+At this point we have got all of the framework that we need for the extension - we have an icon, which when clicked, executes some Javascript.  Now, we just need to write the Javascript that would actually press left and down on the web page.  This requires some knowledge of Javascript and the same-origin policy (which forces us to put our code into a `script` node in the DOM so that it can interact with the Javascript on 2048).  Some Googling shows us how to generate a `keydown` event (which is how 2048 figures out what the user wants to do).  Combining this gives us the final script, which includes one additional file, `play_2048.js`.  I was unable to find an easy way to import a local copy of the `play_2048.js` - the `script` node expects the `src` attribute to be a link.  So, I've hosted `play_2048.js` [here](http://inst.eecs.berkeley.edu/~rohin/scholars/2048/play_2048.js), and hard-coded a link to it in the extension.  This is a Bad Programming Practice, but I've spent multiple hours trying to find a better alternative with no success.
+
+And that's it!  We now have an extension that plays 2048 by continuously pressing left and down, which can be found in `2048bot/v4`.  Sometimes the program gets stuck (where left and down have no effect).  If a human gets it unstuck by pressing up each time, then the program does decently well (it has scored above 3000, and makes a 256 tile regularly).
