@@ -1,0 +1,21 @@
+{
+    "manifest_version": 2,
+
+    "name": "2048 Bot",
+    "description": "This extension plays the 2048 game automatically",
+    "version": "1.0",
+
+    "background": {
+	"scripts": ["background.js"],
+	"persistent": false
+    },
+
+    "permissions": [
+	"declarativeContent"
+    ],
+
+    "page_action": {
+	"default_icon": "images/icon.png",
+	"default_title": "2048 Bot"
+    }
+}
